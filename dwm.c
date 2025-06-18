@@ -1012,7 +1012,8 @@ getsigcmds(int signal)
 int
 getstatus(int width)
 {
-	int i, len, all = width, delimlen = TEXTW(delimiter) - lrpad;
+	// int i, len, all = width, delimlen = TEXTW(delimiter) - lrpad;
+	int i, len, all = width, delimlen = TEXTW(delimiter);
 	char fgcol[8];
 				/* fg		bg */
 	const char *cols[8] = 	{ fgcol, colors[SchemeStatus][ColBg] };
@@ -1031,15 +1032,17 @@ getstatus(int width)
 		/* re-load the scheme with the new colors */
 		scheme[SchemeStatus] = drw_scm_create(drw, cols, 3);
 		drw_setscheme(drw, scheme[SchemeStatus]); /* 're-set' the scheme */
-		len = TEXTW(blockoutput[i]) - lrpad;
+		// len = TEXTW(blockoutput[i]) - lrpad;
+		len = TEXTW(blockoutput[i]);
 		all -= len;
-		drw_text(drw, all, 0, len, bh, 0, blockoutput[i], 0);
+		// drw_text(drw, all, 0, len, bh, 0, blockoutput[i], 0);
+		drw_text(drw, all, 0, len, bh, lrpad / 2, blockoutput[i], 0);
 		/* draw delimiter */
 		if (*delimiter == '\0') /* ignore no delimiter */
 			continue;
 		drw_setscheme(drw, scheme[SchemeNorm]);
 		all -= delimlen;
-		drw_text(drw, all, 0, delimlen, bh, 0, delimiter, 0);
+		drw_text(drw, all, 0, delimlen, bh, lrpad / 2, delimiter, 0);
 	}
 
 	return stsw = width - all;
@@ -1850,8 +1853,8 @@ setup(void)
 	drw = drw_create(dpy, screen, root, sw, sh);
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
-	lrpad = drw->fonts->h;
-	bh = drw->fonts->h + 2;
+	lrpad = drw->fonts->h + horizpadbar;
+	bh = drw->fonts->h + vertpadbar;
 	sp = sidepad;
 	vp = (topbar == 1) ? vertpad : - vertpad;
 	updategeom();

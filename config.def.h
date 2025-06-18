@@ -8,6 +8,8 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int vertpad            = 10;       /* vertical padding of bar */
 static const int sidepad            = 10;       /* horizontal padding of bar */
+static const int horizpadbar        = 4;        /* horizontal padding for statusbar */
+static const int vertpadbar         = 10;        /* vertical padding for statusbar */
 static const char *fonts[]          = { "Terminus (TTF):size=10" };
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -24,14 +26,14 @@ static const char *colors[][3]      = {
 
 /* status bar */
 static const Block blocks[] = {
-	/* fg     command				interval	signal */
+	/* fg        command				interval	signal */
 	{ col_gray3, "echo $(date '+%a %d %b %H:%M')",	60,		1},
 };
 
 /* inverse the order of the blocks, comment to disable */
 #define INVERSED	1
 /* delimeter between blocks commands. NULL character ('\0') means no delimeter. */
-static char delimiter[] = " ";
+static char delimiter[] = "\0";
 /* max number of character that one block command can output */
 #define CMDLENGTH	50
 
