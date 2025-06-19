@@ -2,15 +2,15 @@
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int gappx     = 10;       /* gaps between windows */
+static const unsigned int gappx     = 12;       /* gaps between windows */
 static const unsigned int snap      = 0;        /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int refreshrate        = 60;       /* Update rate for drag and resize events, in updates (frames) per second */
-static const int vertpad            = 10;       /* vertical padding of bar */
+static const int vertpad            = 12;       /* vertical padding of bar */
 static const int sidepad            = 240;      /* horizontal padding of bar */
-static const int horizpadbar        = 10;       /* horizontal padding for statusbar */
-static const int vertpadbar         = 10;       /* vertical padding for statusbar */
+static const int horizpadbar        = 12;       /* horizontal padding for statusbar */
+static const int vertpadbar         = 12;       /* vertical padding for statusbar */
 // static const char *fonts[]          = { "Terminus (TTF):pixelsize=12:antialias=true:autohint=true" };
 // static const char *fonts[]          = { "Fixedsys Excelsior:pixelsize=14:antialias=true:autohint=true" };
 // static const char *fonts[]          = { "ProggyCleanTTSZ:size=12:antialias=true:autohint=true" };
