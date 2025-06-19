@@ -6,6 +6,7 @@ static const unsigned int gappx     = 10;       /* gaps between windows */
 static const unsigned int snap      = 0;        /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+static const int refreshrate        = 60;       /* Update rate for drag and resize events, in updates (frames) per second */
 static const int vertpad            = 10;       /* vertical padding of bar */
 static const int sidepad            = 240;      /* horizontal padding of bar */
 static const int horizpadbar        = 10;       /* horizontal padding for statusbar */
