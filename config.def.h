@@ -8,7 +8,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int refreshrate        = 60;       /* Update rate for drag and resize events, in updates (frames) per second */
 static const int vertpad            = 12;       /* vertical padding of bar */
-static const int sidepad            = 240;      /* horizontal padding of bar */
+static const int sidepad            = 12;      /* horizontal padding of bar */
 static const int horizpadbar        = 12;       /* horizontal padding for statusbar */
 static const int vertpadbar         = 12;       /* vertical padding for statusbar */
 // static const char *fonts[]          = { "Terminus (TTF):pixelsize=12:antialias=true:autohint=true" };
@@ -29,11 +29,17 @@ static const char *colors[][3]      = {
 	[SchemeStatus]={ col_cyan, col_gray1,  NULL  },
 };
 
+/* centered title */
+#define CENTEREDTITLE   1
 
 /* status bar */
 static const Block blocks[] = {
 	/* fg        command				interval	signal */
 	{ col_gray3, "echo $(date '+%a %d %b %H:%M')",	60,		1},
+	{ col_gray3, "echo 'P: 92%'",	60,		2},
+	{ col_gray3, "echo 'B: 21%'",	60,		3},
+	{ col_gray3, "echo 'M: -'",	60,		4},
+	{ col_gray3, "echo 'V: 65%'",	60,		5},
 };
 
 /* inverse the order of the blocks, comment to disable */
