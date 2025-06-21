@@ -199,7 +199,7 @@ static void incnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
 static void loadresource(XrmDatabase db, char *name, enum resourcetype rtype, void *dst);
-static void loadxresources(void);
+static void loadxresources(Display *dpy);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
@@ -1235,23 +1235,20 @@ loadresource(XrmDatabase db, char *name, enum resourcetype rtype, void *dst)
 }
 
 void
-loadxresources(void)
+loadxresources(Display *dpy)
 {
-	Display *display;
 	char *resm;
 	XrmDatabase db;
 	ResourcePref *p;
 
-	display = XOpenDisplay(NULL);
-	if (display) {
-		resm = XResourceManagerString(display);
+	if (dpy) {
+		resm = XResourceManagerString(dpy);
 		if (resm) {
 			db = XrmGetStringDatabase(resm);
 			for (p = resources; p < resources + LENGTH(resources); p++)
 				loadresource(db, p->name, p->type, p->dst);
 		}
 	}
-	XCloseDisplay(display);
 }
 
 void
@@ -2566,7 +2563,7 @@ main(int argc, char *argv[])
 		die("dwm: cannot open display");
 	checkotherwm();
 	XrmInitialize();
-	loadxresources();
+	loadxresources(dpy);
 	setup();
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
