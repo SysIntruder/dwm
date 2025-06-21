@@ -36,6 +36,9 @@ static char *colors[][3]      = {
 static const Block blocks[] = {
 	/* fg        command				interval	signal */
 	{ normfg, "echo $(date '+%a %d %b %H:%M')",	60,		1},
+	{ normfg, "sb_bat.sh",				10,		2},
+	{ normfg, "sb_mic.sh",				10,		3},
+	{ normfg, "sb_vol.sh",				10,		4},
 };
 
 /* inverse the order of the blocks, comment to disable */
