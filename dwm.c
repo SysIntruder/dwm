@@ -36,6 +36,7 @@
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xproto.h>
+#include <X11/Xresource.h>
 #include <X11/Xutil.h>
 #ifdef XINERAMA
 #include <X11/extensions/Xinerama.h>
@@ -66,6 +67,7 @@ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
 enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
+enum resourcetype { XresInteger, XresString, XresFloat }; /* XResources type */
 
 typedef union {
 	int i;
@@ -148,6 +150,12 @@ typedef struct {
 	const unsigned int signal;
 } Block;
 
+typedef struct {
+	char *name;
+	enum resourcetype type;
+	void *dst;
+} ResourcePref;
+
 /* function declarations */
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
@@ -190,6 +198,8 @@ static void grabkeys(void);
 static void incnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
+static void loadresource(XrmDatabase db, char *name, enum resourcetype rtype, void *dst);
+static void loadxresources(void);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
@@ -1021,7 +1031,7 @@ getstatus(int width)
 	int i, len, all = width, delimlen = TEXTW(delimiter);
 	char fgcol[8];
 				/* fg		bg */
-	const char *cols[8] = 	{ fgcol, colors[SchemeStatus][ColBg] };
+	char *cols[8] = 	{ fgcol, colors[SchemeStatus][ColBg] };
 	//uncomment to inverse the colors
 	//const char *cols[8] = 	{ colors[SchemeStatus][ColBg], fgcol };
 
@@ -1189,6 +1199,57 @@ killclient(const Arg *arg)
 		XSetErrorHandler(xerror);
 		XUngrabServer(dpy);
 	}
+}
+
+void
+loadresource(XrmDatabase db, char *name, enum resourcetype rtype, void *dst)
+{
+	char *sdst = NULL;
+	int *idst = NULL;
+	float *fdst = NULL;
+	char fullname[256];
+	char *type;
+	XrmValue ret;
+
+	sdst = dst;
+	idst = dst;
+	fdst = dst;
+
+	snprintf(fullname, sizeof(fullname), "%s.%s", "dwm", name);
+	fullname[sizeof(fullname) - 1] = '\0';
+
+	XrmGetResource(db, fullname, "*", &type, &ret);
+	if (!(ret.addr == NULL) || (strncmp("String", type, 64))) {
+		switch (rtype) {
+		case XresInteger:
+			*idst = strtoul(ret.addr, NULL, 10);
+			break;
+		case XresString:
+			strcpy(sdst, ret.addr);
+			break;
+		case XresFloat:
+			*fdst = strtof(ret.addr, NULL);
+			break;
+		}
+	}
+}
+
+void
+loadxresources(void)
+{
+	Display *display;
+	char *resm;
+	XrmDatabase db;
+	ResourcePref *p;
+
+	display = XOpenDisplay(NULL);
+	resm = XResourceManagerString(display);
+	if (!resm)
+		return;
+	db = XrmGetStringDatabase(resm);
+	for (p = resources; p < resources + LENGTH(resources); p++)
+		loadresource(db, p->name, p->type, p->dst);
+	XCloseDisplay(display);
 }
 
 void
@@ -2502,6 +2563,8 @@ main(int argc, char *argv[])
 	if (!(dpy = XOpenDisplay(NULL)))
 		die("dwm: cannot open display");
 	checkotherwm();
+	XrmInitialize();
+	loadxresources();
 	setup();
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
