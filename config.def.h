@@ -20,7 +20,7 @@ static char normborder[]      = "#444444";
 static char normfg[]          = "#bbbbbb";
 static char selfg[]           = "#eeeeee";
 static char selbg[]           = "#005577";
-static char urgborder[]       = "#ff0000";
+static char urgborder[]       = "#cc3333";
 static char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { normfg,    normbg,    normborder },
@@ -36,10 +36,6 @@ static char *colors[][3]      = {
 static const Block blocks[] = {
 	/* fg        command				interval	signal */
 	{ normfg, "echo $(date '+%a %d %b %H:%M')",	60,		1},
-	{ normfg, "echo 'P: 92%'",	60,		2},
-	{ normfg, "echo 'B: 21%'",	60,		3},
-	{ normfg, "echo 'M: -'",	60,		4},
-	{ normfg, "echo 'V: 65%'",	60,		5},
 };
 
 /* inverse the order of the blocks, comment to disable */

@@ -1219,7 +1219,7 @@ loadresource(XrmDatabase db, char *name, enum resourcetype rtype, void *dst)
 	fullname[sizeof(fullname) - 1] = '\0';
 
 	XrmGetResource(db, fullname, "*", &type, &ret);
-	if (!(ret.addr == NULL) || (strncmp("String", type, 64))) {
+	if (!(ret.addr == NULL || strncmp("String", type, 64))) {
 		switch (rtype) {
 		case XresInteger:
 			*idst = strtoul(ret.addr, NULL, 10);
@@ -1243,12 +1243,14 @@ loadxresources(void)
 	ResourcePref *p;
 
 	display = XOpenDisplay(NULL);
-	resm = XResourceManagerString(display);
-	if (!resm)
-		return;
-	db = XrmGetStringDatabase(resm);
-	for (p = resources; p < resources + LENGTH(resources); p++)
-		loadresource(db, p->name, p->type, p->dst);
+	if (display) {
+		resm = XResourceManagerString(display);
+		if (resm) {
+			db = XrmGetStringDatabase(resm);
+			for (p = resources; p < resources + LENGTH(resources); p++)
+				loadresource(db, p->name, p->type, p->dst);
+		}
+	}
 	XCloseDisplay(display);
 }
 
