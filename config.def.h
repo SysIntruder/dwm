@@ -1,20 +1,17 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-/* static const char *fonts[]    = { "Terminus (TTF):pixelsize=12:antialias=true:autohint=true" }; */
-/* static const char *fonts[]    = { "Fixedsys Excelsior:pixelsize=14:antialias=true:autohint=true" }; */
-/* static const char *fonts[]    = { "ProggyCleanTTSZ:size=12:antialias=true:autohint=true" }; */
-static const char *fonts[]    = { "Cozette:pixelsize=12:antialias=false:autohint=true" };
-static const int refreshrate  = 60;       /* Update rate for drag and resize events, in updates (frames) per second */
 static unsigned int borderpx  = 1;        /* border pixel of windows */
-static unsigned int gappx     = 12;       /* gaps between windows */
+static unsigned int gappx     = 0;        /* gaps between windows */
 static unsigned int snap      = 0;        /* snap pixel */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static int vertpad            = 12;       /* vertical padding of bar */
-static int sidepad            = 12;       /* horizontal padding of bar */
-static int horizpadbar        = 12;       /* horizontal padding for statusbar */
-static int vertpadbar         = 12;       /* vertical padding for statusbar */
+static const char *fonts[]    = { "monospace:size=10" };
+static const int refreshrate  = 60;       /* Update rate for drag and resize events, in updates (frames) per second */
+static int vertpad            = 0;        /* vertical padding of bar */
+static int sidepad            = 0;        /* horizontal padding of bar */
+static int horizpadbar        = 2;        /* horizontal padding for statusbar */
+static int vertpadbar         = 0;        /* vertical padding for statusbar */
 static char normbg[]          = "#222222";
 static char normborder[]      = "#444444";
 static char normfg[]          = "#bbbbbb";
@@ -34,11 +31,11 @@ static char *colors[][3]      = {
 
 /* status bar */
 static const Block blocks[] = {
-	/* fg        command				interval	signal */
-	{ normfg, "echo $(date '+%a %d %b %H:%M')",	60,		1},
-	{ normfg, "sb_bat.sh",				10,		2},
-	{ normfg, "sb_mic.sh",				10,		3},
-	{ normfg, "sb_vol.sh",				10,		4},
+	/* fg        command	interval	signal */
+	{ normfg, "sb_date.sh",	60,		1},
+	{ normfg, "sb_bat.sh",	10,		2},
+	{ normfg, "sb_mic.sh",	10,		3},
+	{ normfg, "sb_vol.sh",	10,		4},
 };
 
 /* inverse the order of the blocks, comment to disable */
@@ -65,7 +62,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static float mfact        = 0.55; /* factor of master area size [0.05..0.95] */
 static int nmaster        = 1;    /* number of clients in master area */
-static int resizehints    = 0;    /* 1 means respect size hints in tiled resizals */
+static int resizehints    = 1;    /* 1 means respect size hints in tiled resizals */
 static int lockfullscreen = 1;    /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
