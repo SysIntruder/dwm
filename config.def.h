@@ -23,28 +23,10 @@ static char *colors[][3]      = {
 	[SchemeNorm] = { normfg,    normbg,    normborder },
 	[SchemeSel]  = { selfg,     selbg,     selbg  },
 	[SchemeUrg]  = { selfg,     selbg,     urgborder  },
-	[SchemeStatus]={ selbg,     normbg,    NULL  },
 };
 
 /* centered title */
 #define CENTEREDTITLE   1
-
-/* status bar */
-static const Block blocks[] = {
-	/* fg        command	interval	signal */
-	{ normfg, "sb_date.sh",	60,		1},
-	{ normfg, "sb_bat.sh",	10,		2},
-	{ normfg, "sb_mic.sh",	10,		3},
-	{ normfg, "sb_vol.sh",	10,		4},
-};
-
-/* inverse the order of the blocks, comment to disable */
-#define INVERSED	1
-/* delimeter between blocks commands. NULL character ('\0') means no delimeter. */
-static char delimiter[] = "\0";
-/* max number of character that one block command can output */
-#define CMDLENGTH	50
-
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -158,14 +140,7 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-
-	{ ClkStatusText,        0,              Button1,        sendstatusbar,   {.i = 1 } },
-	{ ClkStatusText,        0,              Button2,        sendstatusbar,   {.i = 2 } },
-	{ ClkStatusText,        0,              Button3,        sendstatusbar,   {.i = 3 } },
-	{ ClkStatusText,        0,              Button4,        sendstatusbar,   {.i = 4 } },
-	{ ClkStatusText,        0,              Button5,        sendstatusbar,   {.i = 5 } },
-	{ ClkStatusText,        ShiftMask,      Button1,        sendstatusbar,   {.i = 6 } },
-
+	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
