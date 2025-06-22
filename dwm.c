@@ -67,7 +67,7 @@ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
 enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
-enum resourcetype { XresInteger, XresString, XresFloat }; /* XResources type */
+enum resourcetype { XresInteger, XresStringPtr, XresString, XresFloat }; /* XResources type */
 
 typedef union {
 	int i;
@@ -1205,6 +1205,7 @@ void
 loadresource(XrmDatabase db, char *name, enum resourcetype rtype, void *dst)
 {
 	char *sdst = NULL;
+	char **psdst = NULL;
 	int *idst = NULL;
 	float *fdst = NULL;
 	char fullname[256];
@@ -1212,6 +1213,7 @@ loadresource(XrmDatabase db, char *name, enum resourcetype rtype, void *dst)
 	XrmValue ret;
 
 	sdst = dst;
+	psdst = dst;
 	idst = dst;
 	fdst = dst;
 
@@ -1223,6 +1225,9 @@ loadresource(XrmDatabase db, char *name, enum resourcetype rtype, void *dst)
 		switch (rtype) {
 		case XresInteger:
 			*idst = strtoul(ret.addr, NULL, 10);
+			break;
+		case XresStringPtr:
+			*psdst = ret.addr;
 			break;
 		case XresString:
 			strcpy(sdst, ret.addr);
