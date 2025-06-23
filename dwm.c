@@ -216,8 +216,6 @@ static void setup(void);
 static void setsignal(int sig, int flags, void (*handler)(int sig));
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
-static void sighup(int unused);
-static void sigterm(int unused);
 static void sigstatusbar(const Arg *arg);
 static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
@@ -280,7 +278,6 @@ static void (*handler[LASTEvent]) (XEvent *) = {
 	[UnmapNotify] = unmapnotify
 };
 static Atom wmatom[WMLast], netatom[NetLast];
-static int restart = 0;
 static int running = 1;
 static Cur *cursor[CurLast];
 static Clr **scheme;
@@ -1420,7 +1417,6 @@ propertynotify(XEvent *e)
 void
 quit(const Arg *arg)
 {
-	if(arg->i) restart = 1;
 	running = 0;
 }
 
@@ -1737,9 +1733,6 @@ setup(void)
 
 	/* clean up any zombies (inherited from .xinitrc etc) immediately */
 	while (waitpid(-1, NULL, WNOHANG) > 0);
-
-	setsignal(SIGHUP, 0, sighup);
-	setsignal(SIGTERM, 0, sigterm);
 
 	/* init screen */
 	screen = DefaultScreen(dpy);
@@ -2423,7 +2416,6 @@ main(int argc, char *argv[])
 #endif /* __OpenBSD__ */
 	scan();
 	run();
-	if(restart) execvp(argv[0], argv);
 	cleanup();
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
