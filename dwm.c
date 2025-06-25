@@ -757,29 +757,22 @@ drawbar(Monitor *m)
 
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
-		// drw_setscheme(drw, scheme[SchemeNorm]);
-		// tw = TEXTW(stext) - lrpad + 2 * sp;
-		// drw_text(drw, m->ww - tw - 2 * sp, 0, tw, bh, lrpad / 2, stext, 0);
-
-		// tw = TEXTW(stext) - lrpad + 2;
-		// drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
-
+		drw_setscheme(drw, scheme[SchemeNorm]);
 		char *text, *s, ch;
 		x = 0;
-		drw_setscheme(drw, scheme[SchemeNorm]);
 		for (text = s = stext; *s; s++) {
 			if ((unsigned char)(*s) < ' ') {
 				ch = *s;
 				*s = '\0';
-				tw = TEXTW(text) - lrpad;
-				drw_text(drw, m->ww - statusw + x, 0, tw, bh, 0, text, 0);
+				tw = TEXTW(text) - lrpad + (!x || !*(s+1) ? horizpadbar : 0);
+				drw_text(drw, m->ww - statusw + x - 2 * sp, 0, tw, bh, !x ? horizpadbar : 0, text, 0);
 				x += tw;
 				*s = ch;
 				text = s + 1;
 			}
 		}
-		tw = TEXTW(text) - lrpad + 2 * sp;
-		drw_text(drw, m->ww - statusw + x - 2 * sp, 0, tw, bh, lrpad / 2, text, 0);
+		tw = TEXTW(text) - lrpad;
+		drw_text(drw, m->ww - statusw + x - 2 * sp, 0, tw, bh, 0, text, 0);
 		tw = statusw;
 	}
 
@@ -2242,7 +2235,7 @@ updatestatus(void)
 {
 	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext))) {
 		strcpy(stext, "dwm-"VERSION);
-		statusw = TEXTW(stext) - lrpad + 2 * sp;
+		statusw = TEXTW(stext) - lrpad;
 	} else {
 		char *text, *s, ch;
 
@@ -2256,7 +2249,7 @@ updatestatus(void)
 				text = s + 1;
 			}
 		}
-		statusw += TEXTW(text) - lrpad + 2 * sp;
+		statusw += TEXTW(text) - lrpad + 2 * horizpadbar;
 
 	}
 	drawbar(selmon);
