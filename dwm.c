@@ -798,14 +798,14 @@ drawbar(Monitor *m)
 	if ((w = m->ww - tw - x) > bh) {
 		if (m->sel) {
 			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
-			#if CENTEREDTITLE
-			if (TEXTW(m->sel->name) > w) /* title is bigger thanthe width of the title rectangle, don't center */
+			if (centeredtitle) {
+				if (TEXTW(m->sel->name) > w) /* title is bigger thanthe width of the title rectangle, don't center */
+					drw_text(drw, x, 0, w - 2 * sp, bh, lrpad / 2, m->sel->name, 0);
+				else /* center window title */
+					drw_text(drw, x, 0, w - 2 * sp, bh, (w - TEXTW(m->sel->name) - 2 * sp) / 2, m->sel->name, 0);
+			} else {
 				drw_text(drw, x, 0, w - 2 * sp, bh, lrpad / 2, m->sel->name, 0);
-			else /* center window title */
-				drw_text(drw, x, 0, w - 2 * sp, bh, (w - TEXTW(m->sel->name) - 2 * sp) / 2, m->sel->name, 0);
-			#else
-			drw_text(drw, x, 0, w - 2 * sp, bh, lrpad / 2, m->sel->name, 0);
-			#endif /* CENTEREDTITLE */
+			}
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
 		} else {

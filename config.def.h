@@ -26,7 +26,7 @@ static char *colors[][3]      = {
 };
 
 /* centered title */
-#define CENTEREDTITLE   1
+static unsigned int centeredtitle = 1;
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -95,6 +95,7 @@ ResourcePref resources[] = {
 	{ "resizehints",    XresInteger,    &resizehints },
 	{ "lockfullscreen", XresInteger,    &lockfullscreen },
 	{ "statusbar",      XresString,     &statusbar },
+	{ "centeredtitle",  XresInteger,    &centeredtitle },
 };
 
 static const Key keys[] = {
