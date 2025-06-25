@@ -65,7 +65,7 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-#define STATUSBAR "dwmblocks"
+static char statusbar[] = "dwmblocks";
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -94,6 +94,7 @@ ResourcePref resources[] = {
 	{ "nmaster",        XresInteger,    &nmaster },
 	{ "resizehints",    XresInteger,    &resizehints },
 	{ "lockfullscreen", XresInteger,    &lockfullscreen },
+	{ "statusbar",      XresString,     &statusbar },
 };
 
 static const Key keys[] = {

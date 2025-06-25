@@ -949,7 +949,7 @@ getatomprop(Client *c, Atom prop)
 pid_t
 getstatusbarpid()
 {
-	char buf[32], *str = buf, *c;
+	char buf[32], *str = buf, *c, cmd[sizeof(statusbar)+10];
 	FILE *fp;
 
 	if (statuspid > 0) {
@@ -959,11 +959,12 @@ getstatusbarpid()
 			while ((c = strchr(str, '/')))
 				str = c + 1;
 			fclose(fp);
-			if (!strcmp(str, STATUSBAR))
+			if (!strcmp(str, statusbar))
 				return statuspid;
 		}
 	}
-	if (!(fp = popen("pidof -s "STATUSBAR, "r")))
+	snprintf(cmd, sizeof(cmd), "pidof -s %s", statusbar);
+	if (!(fp = popen(cmd, "r")))
 		return -1;
 	fgets(buf, sizeof(buf), fp);
 	pclose(fp);
