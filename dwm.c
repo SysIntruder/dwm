@@ -759,6 +759,7 @@ drawbar(Monitor *m)
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
 		char *text, *s, ch;
+		ch = '\0';
 		x = 0;
 		for (text = s = stext; *s; s++) {
 			if ((unsigned char)(*s) < ' ') {
@@ -771,8 +772,10 @@ drawbar(Monitor *m)
 				text = s + 1;
 			}
 		}
-		tw = TEXTW(text) - lrpad;
-		drw_text(drw, m->ww - statusw + x - 2 * sp, 0, tw, bh, 0, text, 0);
+		if (!strcmp(statusbar, "dwmblocks")) {
+			tw = TEXTW(text) - lrpad;
+			drw_text(drw, m->ww - statusw + x - 2 * sp, 0, tw, bh, 0, text, 0);
+		}
 		tw = statusw;
 	}
 
