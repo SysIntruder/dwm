@@ -125,7 +125,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_a,                     spawn,          {.v = (const char *[]){ "st", "-T", "'Alsa Mixer'", "-e", "alsamixer", NULL } } },
 	{ MODKEY,                       XK_Tab,                   spawn,          {.v = (const char *[]){ "networkmanager_dmenu", NULL } } },
 	{ MODKEY,                       XK_equal,                 spawn,          {.v = (const char *[]){ "=", NULL } } },
-	{ MODKEY,                       XK_n,                     spawn,          SHCMD("$HOME/bin/dmenumount.sh") },
+	{ MODKEY,                       XK_m,                     spawn,          SHCMD("$HOME/bin/dmenumount.sh") },
+	{ MODKEY|ShiftMask,             XK_b,                     spawn,          SHCMD("$HOME/bin/picom_toggle.sh") },
 
 	{ 0,                            XF86XK_AudioRaiseVolume,  spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+5 dsblocks") },
 	{ 0,                            XF86XK_AudioLowerVolume,  spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -RTMIN+5 dsblocks") },
