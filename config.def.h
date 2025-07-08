@@ -43,7 +43,6 @@ static const Rule rules[] = {
 	{ "Nm-connection-editor",       NULL,       NULL,            0,            1,           -1 },
 	{ NULL,                         NULL,       "><>",           0,            1,           -1 },
 	{ NULL,                         NULL,       "Alsa Mixer",    0,            1,           -1 },
-	{ NULL,                         NULL,       "Record Screen", 1 << 8,       1,           -1 },
 
 	{ "firefox-developer-edition",  NULL,       NULL,            1 << 1,       0,           -1 },
 	{ "krita",                      NULL,       NULL,            1 << 2,       0,           -1 },
@@ -123,8 +122,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_F2,                    spawn,          {.v = (const char *[]){ "firefox-developer-edition", NULL } } },
 	{ MODKEY,                       XK_F3,                    spawn,          {.v = (const char *[]){ "st", "-T", "'File Manager'", "-e", "vifm", NULL } } },
 	{ MODKEY,                       XK_a,                     spawn,          {.v = (const char *[]){ "st", "-T", "'Alsa Mixer'", "-e", "alsamixer", NULL } } },
-	{ MODKEY,                       XK_Tab,                   spawn,          {.v = (const char *[]){ "networkmanager_dmenu", NULL } } },
-	{ MODKEY,                       XK_equal,                 spawn,          {.v = (const char *[]){ "=", NULL } } },
+	{ MODKEY,                       XK_Tab,                   spawn,          SHCMD("$HOME/bin/dmenunetworkmanager.sh") },
+	{ MODKEY,                       XK_equal,                 spawn,          SHCMD("$HOME/bin/dmenucalc.sh") },
 	{ MODKEY,                       XK_m,                     spawn,          SHCMD("$HOME/bin/dmenumount.sh") },
 	{ MODKEY|ShiftMask,             XK_b,                     spawn,          SHCMD("$HOME/bin/picom_toggle.sh") },
 
@@ -141,7 +140,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Print,                 spawn,          SHCMD("scrot -z $HOME/Pictures/screenshot/$(date +%s).png; notify-send 'screenshot saved'") },
 	{ MODKEY|ControlMask,           XK_Print,                 spawn,          SHCMD("scrot -z -o -s -f $HOME/Pictures/screenshot/$(date +%s).png; notify-send 'screenshot saved'") },
 	{ MODKEY|ShiftMask,             XK_Print,                 spawn,          SHCMD("scrot -z -o -s -f --format png /dev/stdout | xclip -selection clipboard -t image/png -i; notify-send 'screenshot copied to clipboard'") },
-	{ MODKEY|Mod1Mask,              XK_Print,                 spawn,          SHCMD("st -T 'Record Screen' -e $HOME/bin/record.sh") },
+	{ MODKEY|Mod1Mask,              XK_Print,                 spawn,          SHCMD("$HOME/bin/record.sh && pkill -RTMIN+6 dsblocks") },
 
 	{ MODKEY,                       XK_q,                     killclient,     {0} },
 	{ MODKEY|ControlMask,           XK_Return,                zoom,           {0} },
