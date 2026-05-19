@@ -133,8 +133,8 @@ static const Key keys[] = {
 	{ ShiftMask,                    XF86XK_AudioRaiseVolume,  spawn,          SHCMD("pactl set-source-volume @DEFAULT_SOURCE@ +5% && pkill -RTMIN+4 dsblocks") },
 	{ ShiftMask,                    XF86XK_AudioLowerVolume,  spawn,          SHCMD("pactl set-source-volume @DEFAULT_SOURCE@ -5% && pkill -RTMIN+4 dsblocks") },
 	{ 0,                            XF86XK_AudioMicMute,      spawn,          SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle && pkill -RTMIN+4 dsblocks") },
-	{ 0,                            XF86XK_MonBrightnessUp,   spawn,          SHCMD("xbacklight -inc 5 && pkill -RTMIN+3 dsblocks") },
-	{ 0,                            XF86XK_MonBrightnessDown, spawn,          SHCMD("xbacklight -dec 5 && pkill -RTMIN+3 dsblocks") },
+	{ 0,                            XF86XK_MonBrightnessUp,   spawn,          SHCMD("brightnessctl set +5% && pkill -RTMIN+3 dsblocks") },
+	{ 0,                            XF86XK_MonBrightnessDown, spawn,          SHCMD("brightnessctl set 5%- && pkill -RTMIN+3 dsblocks") },
 	{ MODKEY,                       XK_F5,                    spawn,          {.v = (const char *[]){ "playerctl", "play-pause", NULL } } },
 
 	{ MODKEY,                       XK_Print,                 spawn,          SHCMD("scrot -z $HOME/Pictures/screenshot/$(date +%s).png; notify-send 'screenshot saved'") },
